@@ -48,11 +48,32 @@
             </ul>
         </nav>
     </header>
-    <main>
-        <h1>Welcome to the Quiz App</h1>
+    <main id="main">
+        <h1 id="typed-heading" data-text="Welcome to the Quiz App"></h1>
+        <script type="module">
+            import { typedText } from "./scripts.js";
+           
+            document.addEventListener("DOMContentLoaded", () => {
+            const el = document.getElementById("typed-heading");
+            const textFromHTML = el.dataset.text;
+            typedText(textFromHTML);
+            });
+        </script>
         <p>Test your knowledge on various topics with our interactive quiz application. Click below to start the quiz!</p>
-        <a href="quiz.html" class="start-quiz-button">Start Quiz</a>
+        <a href="quiz.html" class="start-quiz-button"><button type="button">Go to Quizzes</button></a>
     </main>
-    
+    <footer role="contentinfo">
+        <p>&copy; 2026 Aditya Desai. All rights reserved.</p>
+        <nav aria-label="Footer Navigation">
+            <ul>
+                <li><a href="contact.html"><u>Get in Touch</u></a></li>
+            </ul>
+        </nav>
+        <address>
+            Located in the Global Cloud.<br>
+            <a href="mailto:adityavdesai257@gmail.com">adityavdesai257@gmail.com</a>
+        </address>
+    </footer>
+
 </body>
 </html>

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Quiz application to test your knowledge on various topics.">
+    <meta name="description" content="An interactive quiz application to challenge your knowledge on various subjects.">
     <meta name="author" content="Aditya Desai">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://adityadesai.dev/quiz.html">
     <link rel="stylesheet" href="styles.css">
     <meta property="og:title" content="Take Quiz - Test Your Knowledge">
-    <meta property="og:description" content="An interactive quiz application to challenge your knowledge on various subjects.">
+    <meta property="og:description" content="Take the quiz now and challenge your knowledge on various subjects.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://adityadesai.dev/quiz.html">   
     <meta property="og:image" content="./assets/Quiz_App_Logo.jpg">
@@ -48,5 +48,62 @@
             </ul>
         </nav>
     </header>
+    <main id="main">
+    <section id="startScreen" class="screen active" aria-labelledby="start-title">
+        <h1>Take the Quiz</h1>
+        <p>Get ready to test your knowledge! Answer the following questions to see how much you know.</p>
+        <header>
+        <h2 id="start-title">Ready to test your knowledge?</h2>
+        </header>
+        <p>Click the button below to begin the quiz.</p>
+        <button id="startQuizBtn" class="btn btn-primary" type="button">Start Quiz</button>
+    </section>
+
+  <!-- Quiz Screen -->
+    <section id="quizScreen" class="screen" aria-labelledby="questionText" aria-live="polite">
+        <article class="quiz-container">
+
+            <header class="quiz-header">
+                <span id="questionNumber" aria-label="Question number"></span>
+
+                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                </header>
+            <h2 id="questionText"></h2>
+
+        <section id="answersContainer" class="answers" role="group" aria-label="Answer choices" ></section>
+        <button id="nextBtn" class="btn btn-primary" type="button" hidden > Next Question </button>
+
+        </article>
+    </section>
+
+  <!-- Results Screen -->
+    <section id="resultsScreen" class="screen" aria-labelledby="results-title">
+        <header>
+        <h2 id="results-title">Quiz Complete!</h2>
+        </header>
+
+    <section id="resultsSummary" aria-live="polite"></section>
+    <nav aria-label="Quiz actions">
+      <button id="retakeBtn" class="btn btn-primary" type="button" > Retake Quiz </button>
+
+      <a href="index.html"><button class="btn btn-secondary" type="button">Back to Home</button> </a>
+    </nav>
+    </section>
+    </main>
+    <footer role="contentinfo">
+        <p>&copy; 2026 Aditya Desai. All rights reserved.</p>
+        <nav aria-label="Footer Navigation">
+            <ul>
+                <li><a href="contact.html"><u>Get in Touch</u></a></li>
+            </ul>
+        </nav>
+        <address>
+            Located in the Global Cloud.<br>
+            <a href="mailto:adityavdesai257@gmail.com">adityavdesai257@gmail.com</a>
+        </address>
+    </footer>
+    <script type="module" src="./scripts.js" defer></script>
 </body>
 </html>
