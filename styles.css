@@ -505,6 +505,7 @@ hr {
   color: var(--color-text-main);
 }
 
+
 .answers {
   display: flex;
   flex-direction: column;
@@ -555,8 +556,11 @@ hr {
   opacity: 0.7;
 }
 
-#nextBtn {
-  width: 100%;
+
+.quiz-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
 }
 
 #resultsSummary {
