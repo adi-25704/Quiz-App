@@ -48,7 +48,8 @@ const examTimer = document.getElementById("exam-timer");
 const timeTaken = document.getElementById("timeTaken");
 
 var currentQuestionIndex = 0;
-var timeLeft = 1/2 * 60; // 30 minutes in seconds
+var minutes = 1;
+var timeLeft = minutes * 60; // 30 minutes in seconds
 var timerId;
 let examInProgress = false;
 let examSubmitted = false;
@@ -192,7 +193,7 @@ function displayResults() {
     exitBtn.style.visibility = "hidden";
     var score = quizData.filter(q => q.selected === q.correct).length;
     finalScore.textContent = `${score} out of ${quizData.length}`;
-    timeTaken.textContent = `${Math.floor((1/2 * 60 - timeLeft) / 60)}:${((1/2 * 60 - timeLeft) % 60).toString().padStart(2, '0')}`+ " Secs";
+    timeTaken.textContent = `${Math.floor((minutes * 60 - timeLeft) / 60)}:${((minutes * 60 - timeLeft) % 60).toString().padStart(2, '0')}`+ " Secs";
 }
 
 function updateProgressBar() {
