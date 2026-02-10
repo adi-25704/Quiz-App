@@ -38,19 +38,44 @@ const resultsScreen = document.getElementById("resultsScreen");
 const questionText = document.getElementById("questionText");
 const qestionNumber = document.getElementById("questionNumber");
 const answersContainer = document.getElementById("answersContainer");
-const resultsSummary = document.getElementById("resultsSummary");
+const finalScore = document.getElementById("finalScore");
 const retakeBtn = document.getElementById("retakeBtn");
 const progressBar = document.getElementById("progressBar");
 const progressFill = document.getElementById("progressFill");
 const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
 const examTimer = document.getElementById("exam-timer");
+const timeTaken = document.getElementById("timeTaken");
+
 var currentQuestionIndex = 0;
-var timeLeft = 1 * 10; // 30 minutes in seconds
+var timeLeft = 1/2 * 60; // 30 minutes in seconds
 var timerId;
+let examInProgress = false;
+let examSubmitted = false;
+
+
+window.addEventListener("beforeunload", (e) => {
+  if (examInProgress) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+});
+
+
+function startExam() {
+  examInProgress = true;
+  examSubmitted = false;
+
+  timerId = setInterval(updateTimer, 1000);
+
+  updateProgressBar();
+  loadQuestion();
+}
 
 if(examScreen)
 {
+    examInProgress = true;
+   
     timerId = setInterval(updateTimer, 1000);
     updateProgressBar();
     loadQuestion();
@@ -66,7 +91,7 @@ if(exitBtn) {
         }
         if(confirm("Are you sure you want to submit?")) 
         {
-            displayResults();
+            endExam("manual-submitted");
         }
         
         });
@@ -159,12 +184,15 @@ if(retakeBtn)
 }
 
 function displayResults() {
+
     examScreen.classList.remove("active");
     resultsScreen.classList.add("active");
+    examTimer.textContent = "Exam Ended";
     exitBtn.disabled = true;
     exitBtn.style.visibility = "hidden";
     var score = quizData.filter(q => q.selected === q.correct).length;
-    resultsSummary.textContent = `Your Score: ${score} out of ${quizData.length}`;
+    finalScore.textContent = `${score} out of ${quizData.length}`;
+    timeTaken.textContent = `${Math.floor((1/2 * 60 - timeLeft) / 60)}:${((1/2 * 60 - timeLeft) % 60).toString().padStart(2, '0')}`+ " Secs";
 }
 
 function updateProgressBar() {
@@ -178,12 +206,23 @@ function updateTimer() {
     examTimer.textContent = `${minutes}:${seconds}`;
     examTimer.setAttribute("datetime", `PT${minutes}M${seconds}S`);
     if (timeLeft <= 0) {         
-        clearInterval(timerId);  
         alert("Time's up! Your answers will be submitted.");
-        displayResults();
+        endExam("time up");
     }
     else
     {
         timeLeft--;
     }
 }
+
+function endExam(reason = "submitted") {
+  if (!examInProgress) return;
+
+  examInProgress = false;
+  examSubmitted = true;
+
+  clearInterval(timerId);
+
+  displayResults();
+}
+

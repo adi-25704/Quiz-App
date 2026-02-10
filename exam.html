@@ -32,10 +32,9 @@
 </head>
 <body>
     <a href="#main">Skip to main content</a>
-    <header>
+    <header id="exam-header">
         <h2 id="exam-title">Exam Mode</h2>
-        <div class="exam-status">
-            <time id="exam-timer" aria-live="polite" datetime="PT30M"></time>
+        <time id="exam-timer" aria-live="polite" datetime="PT30M">00:30</time>
         <button id="exitBtn" class="btn btn-primary" type="button">Submit</button>
     </header>
     <main id="main">
@@ -66,7 +65,20 @@
         <h2 id="results-title">Quiz Complete!</h2>
         </header>
 
-    <section id="resultsSummary" aria-live="polite"></section>
+    <section id="resultsSummary" aria-live="polite">
+        <h2 id="resultsSummaryTitle">Your Results</h2>
+        <dl class="results-list">
+            <div>
+                <dt>Your Score</dt>
+                <dd id="finalScore"></dd>
+            </div>
+
+            <div>
+                <dt>Time Taken</dt>
+                <dd id="timeTaken"></dd>
+            </div>
+        </dl>
+    </section>
     <nav aria-label="Quiz actions">
 
       <a href="index.html"><button class="btn btn-secondary" type="button">Back to Home</button> </a>
