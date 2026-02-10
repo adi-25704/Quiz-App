@@ -1,37 +1,3 @@
-let index = 0;
-let heading;
-let text;
-let hasTyped = false;
-export function typedText(inputText) {
-  if(hasTyped) return; // Prevent re-typing if already done
-  hasTyped = true;
-  heading = document.getElementById("typed-heading");
-  text = inputText;
-
-  // Respect reduced motion preference
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-
-  if (prefersReducedMotion) {
-    // Show text instantly
-    heading.textContent = text;
-  } else {
-    // Typing effect (runs once, then persists)
-    heading.textContent = "";
-    function typeNextChar() {
-        if (index < text.length) {
-            heading.textContent += text.charAt(index);
-            index++;
-            setTimeout(typeNextChar, 20); // typing speed (ms)
-        }
-    }
-    typeNextChar();
-  }
-}
-
-
-
 const quizData = [
   {
     question: "What is the capital of France?",
@@ -65,9 +31,9 @@ const quizData = [
   }
 ];
 
-const startBtn = document.getElementById("startQuizBtn");
-const startScreen = document.getElementById("startScreen");
-const quizScreen = document.getElementById("quizScreen");
+const exitBtn = document.getElementById("exitBtn");
+const startExamBtn = document.getElementById("startExamBtn");
+const examScreen = document.getElementById("examScreen");
 const resultsScreen = document.getElementById("resultsScreen");
 const questionText = document.getElementById("questionText");
 const qestionNumber = document.getElementById("questionNumber");
@@ -77,19 +43,39 @@ const retakeBtn = document.getElementById("retakeBtn");
 const progressBar = document.getElementById("progressBar");
 const progressFill = document.getElementById("progressFill");
 const nextBtn = document.getElementById("nextBtn");
-const prevBtn = document.getElementById("PrevBtn");
+const prevBtn = document.getElementById("prevBtn");
+const examTimer = document.getElementById("exam-timer");
 var currentQuestionIndex = 0;
-if(startBtn) {
-startBtn.addEventListener("click", () => {
-    startScreen.classList.remove("active");
-    quizScreen.classList.add("active");
+var timeLeft = 1 * 10; // 30 minutes in seconds
+var timerId;
+
+if(examScreen)
+{
+    timerId = setInterval(updateTimer, 1000);
+    updateProgressBar();
     loadQuestion();
-});
 }
 
+if(exitBtn) {
+    exitBtn.style.transition = "visibility 0s, opacity 0.5s linear";
+    exitBtn.addEventListener("click", () => {
+        if(quizData.filter(q => q.selected !== null).length < quizData.length) 
+        {
+            alert("Please answer all questions before submitting.");
+            return;
+        }
+        if(confirm("Are you sure you want to submit?")) 
+        {
+            displayResults();
+        }
+        
+        });
+    }
+
+
+
+
 function loadQuestion() {
-    const answered = quizData.filter(q => q.selected !== null).length;
-    progressFill.style.width = `${((answered) / quizData.length) * 100}%`;
     questionText.textContent = quizData[currentQuestionIndex].question;
     qestionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
     answersContainer.innerHTML = "";
@@ -97,7 +83,7 @@ function loadQuestion() {
         const button = document.createElement("button");
         button.textContent = answer;
         button.classList.add("btn", "answer-btn");
-        if(quizData[currentQuestionIndex].selected == index) {
+        if(quizData[currentQuestionIndex].selected === index) {
             button.classList.add("selected");
         }
         button.addEventListener("click", () => {
@@ -120,7 +106,12 @@ if(prevBtn)
         prevBtn.style.visibility = "hidden";
 
     }
+    
     prevBtn.addEventListener("click", () => {
+        if(currentQuestionIndex === (quizData.length-1)) {
+            nextBtn.disabled = false;
+            nextBtn.style.visibility = "visible";  
+        }
         currentQuestionIndex--;
         if(currentQuestionIndex === 0) {
             prevBtn.disabled = true;
@@ -134,6 +125,7 @@ if(prevBtn)
 
 if(nextBtn)
 {
+    nextBtn.style.transition = "visibility 0s, opacity 0.5s linear";
     nextBtn.addEventListener("click", () => {
         if(quizData[currentQuestionIndex].selected === null) {
             alert("Please select an answer before proceeding.");
@@ -144,14 +136,12 @@ if(nextBtn)
         prevBtn.disabled = false;
         prevBtn.style.visibility = "visible";
         if(currentQuestionIndex === (quizData.length-1)) {
-            nextBtn.textContent = "Submit";
+            nextBtn.disabled = true;
+            nextBtn.style.visibility = "hidden";
             
         }
         if(currentQuestionIndex < quizData.length) {
             loadQuestion();       
-        }
-        else {
-            displayResults();
         }
         
     });
@@ -169,8 +159,10 @@ if(retakeBtn)
 }
 
 function displayResults() {
-    quizScreen.classList.remove("active");
+    examScreen.classList.remove("active");
     resultsScreen.classList.add("active");
+    exitBtn.disabled = true;
+    exitBtn.style.visibility = "hidden";
     var score = quizData.filter(q => q.selected === q.correct).length;
     resultsSummary.textContent = `Your Score: ${score} out of ${quizData.length}`;
 }
@@ -178,4 +170,20 @@ function displayResults() {
 function updateProgressBar() {
     const answered = quizData.filter(q => q.selected !== null).length;
     progressFill.style.width = `${((answered) / quizData.length) * 100}%`;
+}
+
+function updateTimer() {
+    const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    const seconds = (timeLeft % 60).toString().padStart(2, '0');
+    examTimer.textContent = `${minutes}:${seconds}`;
+    examTimer.setAttribute("datetime", `PT${minutes}M${seconds}S`);
+    if (timeLeft <= 0) {         
+        clearInterval(timerId);  
+        alert("Time's up! Your answers will be submitted.");
+        displayResults();
+    }
+    else
+    {
+        timeLeft--;
+    }
 }

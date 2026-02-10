@@ -34,11 +34,12 @@
     <a href="#main">Skip to main content</a>
     <header>
         <h2 id="exam-title">Exam Mode</h2>
-        <button id="exitbtn" class="btn btn-primary" type="button">Submit</button>
-        
+        <div class="exam-status">
+            <time id="exam-timer" aria-live="polite" datetime="PT30M"></time>
+        <button id="exitBtn" class="btn btn-primary" type="button">Submit</button>
     </header>
     <main id="main">
-    <section id="ExamScreen" class="screen active" aria-labelledby="start-title">
+    <section id="examScreen" class="screen active" aria-labelledby="start-title">
         <article class="quiz-container">
 
             <header class="quiz-header">
@@ -51,7 +52,11 @@
             <h2 id="questionText"></h2>
 
         <section id="answersContainer" class="answers" role="group" aria-label="Answer choices" ></section>
-        <button id="nextBtn" class="btn btn-primary" type="button" hidden > Next Question </button>
+        <div class="quiz-navigation" aria-label="Quiz Navigation">
+            <button id="prevBtn" class="btn btn-primary" type="button" hidden > Previous Question </button>
+            <button id="nextBtn" class="btn btn-primary" type="button" hidden > Next Question </button>
+        </div>
+
         </article>
     </section>
 
@@ -63,24 +68,11 @@
 
     <section id="resultsSummary" aria-live="polite"></section>
     <nav aria-label="Quiz actions">
-      <button id="retakeBtn" class="btn btn-primary" type="button" > Retake Quiz </button>
 
       <a href="index.html"><button class="btn btn-secondary" type="button">Back to Home</button> </a>
     </nav>
     </section>
     </main>
-    <footer role="contentinfo">
-        <p>&copy; 2026 Aditya Desai. All rights reserved.</p>
-        <nav aria-label="Footer Navigation">
-            <ul>
-                <li><a href="contact.html"><u>Get in Touch</u></a></li>
-            </ul>
-        </nav>
-        <address>
-            Located in the Global Cloud.<br>
-            <a href="mailto:adityavdesai257@gmail.com">adityavdesai257@gmail.com</a>
-        </address>
-    </footer>
-    <script type="module" src="./scripts.js" defer></script>
+    <script type="module" src="./scripts/exam.js" defer></script>
 </body>
 </html>
