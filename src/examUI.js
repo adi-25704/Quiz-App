@@ -128,7 +128,7 @@ export function initExam()
         exitBtn.disabled = true;
         exitBtn.style.visibility = "hidden";
         finalScore.textContent = `${engine.getScore()} out of ${examLength}`;
-        timeTaken.textContent = `${Math.floor(timer.getMinutes())}:${(timer.getSeconds()).toString().padStart(2, '0')}`+ " Secs";
+        timeTaken.textContent = `${timer.getMinutes()}:${(timer.getSeconds()).toString().padStart(2, '0')}`+ " Secs";
     }
 
     function updateProgressBar() 
@@ -153,7 +153,6 @@ export function initExam()
 
     function endExam(reason = "submitted") 
     {
-        timer.stop();
         displayResults();
     }
 
