@@ -11,16 +11,16 @@ export function createCountdownTimer({ duration, onTick, onComplete})
 
         intervalId = setInterval(() => 
         {
+            timeLeft--;
+            let minutes = Math.floor((timeLeft) / 60);
+            let seconds = (timeLeft) % 60;
+            onTick?.(minutes,seconds);
+
             if (timeLeft <= 0) {
                 stop();
                 onComplete?.();
                 return;
             }
-
-            timeLeft--;
-            let minutes = Math.floor((timeLeft) / 60);
-            let seconds = (timeLeft) % 60;
-            onTick?.(minutes,seconds);
         }, 1000);
     }
 
@@ -36,13 +36,14 @@ export function createCountdownTimer({ duration, onTick, onComplete})
     {
         stop();
         timeLeft = newDuration;
+        duration = newDuration;
     }
 
     return {
         start,
         stop,
         reset,
-        getMinutes: () => (duration - timeLeft)/60,
+        getMinutes: () => Math.floor((duration - timeLeft)/60),
         getSeconds: () => (duration - timeLeft) % 60,
         getStatus: ()=> running
     };
