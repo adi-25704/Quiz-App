@@ -13,7 +13,7 @@ export function createQuizEngine(initialData)
         quizData[currentQuestionIndex].selected = index;
     }
     
-    function getprogress() 
+    function getProgress() 
     {
         const answered = quizData.filter(q => q.selected !== null).length;
         return (answered / quizData.length) * 100;
@@ -42,20 +42,45 @@ export function createQuizEngine(initialData)
         quizData.forEach(q => {q.selected = null;});
     }
 
-    function getselectedCount() 
+    function getIsComplete() 
     {
-        return quizData.filter(q => q.selected !== null).length;
+        return !(quizData.filter(q => q.selected !== null).length < quizData.length);
     }
+
+    function hasAnsweredCurrent()
+    {
+        return quizData[currentQuestionIndex].selected !== null;
+    }
+
+    function isSelected(index)
+    {
+        return quizData[currentQuestionIndex].selected === index;
+    }
+
+    function isLast()
+    {
+        return currentQuestionIndex < quizData.length;
+    }
+
+    function isFirst()
+    { 
+        return currentQuestionIndex >= 0;    
+    }
+
 
     return {
         getCurrentQuestion,
         selectAnswer,
         getIndex: () => currentQuestionIndex,
-        getprogress,
+        getProgress,
         getNextQuestion,
         getPreviousQuestion,
         getScore,
         resetQuiz,
-        getselectedCount
+        getIsComplete,
+        hasAnsweredCurrent,
+        isSelected,
+        isLast,
+        isFirst
     };
 }

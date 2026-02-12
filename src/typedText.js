@@ -2,6 +2,13 @@ let index = 0;
 let heading;
 let text;
 let hasTyped = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const el = document.getElementById("typed-heading");
+  const textFromHTML = el.dataset.text;
+  typedText(textFromHTML);
+  });
+
 export function typedText(inputText, speed = 20) {
   if(hasTyped) return; 
   hasTyped = true;

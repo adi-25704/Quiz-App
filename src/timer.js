@@ -18,7 +18,9 @@ export function createCountdownTimer({ duration, onTick, onComplete})
             }
 
             timeLeft--;
-            onTick?.(timeLeft);
+            let minutes = Math.floor((timeLeft) / 60);
+            let seconds = (timeLeft) % 60;
+            onTick?.(minutes,seconds);
         }, 1000);
     }
 
@@ -40,7 +42,8 @@ export function createCountdownTimer({ duration, onTick, onComplete})
         start,
         stop,
         reset,
-        getTimeLeft: () => timeLeft,
+        getMinutes: () => (duration - timeLeft)/60,
+        getSeconds: () => (duration - timeLeft) % 60,
         getStatus: ()=> running
     };
 }

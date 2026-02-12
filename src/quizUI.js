@@ -10,7 +10,7 @@ export function initQuiz()
     const quizScreen = document.getElementById("quizScreen");
     const resultsScreen = document.getElementById("resultsScreen");
     const questionText = document.getElementById("questionText");
-    const qestionNumber = document.getElementById("questionNumber");
+    const questionNumber = document.getElementById("questionNumber");
     const answersContainer = document.getElementById("answersContainer");
     const resultsSummary = document.getElementById("resultsSummary");
     const retakeBtn = document.getElementById("retakeBtn");
@@ -30,13 +30,13 @@ export function initQuiz()
 
         const q = engine.getCurrentQuestion();
         questionText.textContent = q.question;
-        qestionNumber.textContent = `Question ${engine.getIndex() + 1} of ${quizLength}`;
+        questionNumber.textContent = `Question ${engine.getIndex() + 1} of ${quizLength}`;
         answersContainer.innerHTML = "";
         q.answers.forEach((answer,index) => {
             const button = document.createElement("button");
             button.textContent = answer;
             button.classList.add("btn", "answer-btn");
-            if(q.selected === index) {
+            if(engine.isSelected(index)) {
                 button.classList.add("selected");
             }
             button.addEventListener("click", () => {
@@ -54,21 +54,19 @@ export function initQuiz()
 
     function updateProgressBar() 
     {
-        progressFill.style.width = `${engine.getprogress()}%`;
+        progressFill.style.width = `${engine.getProgress()}%`;
     }
 
     if(nextBtn)
     {
         nextBtn.style.transition = "visibility 0s, opacity 0.5s linear";
         nextBtn.addEventListener("click", () => {
-        const q = engine.getCurrentQuestion();
-        console.log("current question:"+ q.question);
-            if(q.selected === null) {
+            if(!engine.hasAnsweredCurrent()) {
                 alert("Please select an answer before proceeding.");
                 return;
             }
             engine.getNextQuestion();
-            if(engine.getIndex() < quizLength) {
+            if(engine.isLast()) {
                 loadQuestion();       
             }
             else {
@@ -100,7 +98,7 @@ export function initQuiz()
 
         prevBtn.addEventListener("click", () => {
             engine.getPreviousQuestion();
-            if(engine.getIndex() >= 0) {
+            if(engine.isFirst()) {
                 loadQuestion();
             }
         });

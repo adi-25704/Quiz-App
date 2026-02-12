@@ -50,15 +50,7 @@
     </header>
     <main id="main">
         <h1 id="typed-heading" data-text="Welcome to the Quiz App"></h1>
-        <script type="module">
-            import { typedText } from "./src/typedText.js";
-           
-            document.addEventListener("DOMContentLoaded", () => {
-            const el = document.getElementById("typed-heading");
-            const textFromHTML = el.dataset.text;
-            typedText(textFromHTML);
-            });
-        </script>
+        
         <p>Test your knowledge on various topics with our interactive quiz application. Click below to start the quiz!</p>
         <a href="quiz.html" class="start-quiz-button"><button type="button">Go to Quizzes</button></a>
     </main>
@@ -74,6 +66,6 @@
             <a href="mailto:adityavdesai257@gmail.com">adityavdesai257@gmail.com</a>
         </address>
     </footer>
-
+    <script type="module" src="./src/typedText.js" defer></script>
 </body>
 </html>

@@ -14,7 +14,7 @@ export function initExam()
     const examScreen = document.getElementById("examScreen");
     const resultsScreen = document.getElementById("resultsScreen");
     const questionText = document.getElementById("questionText");
-    const qestionNumber = document.getElementById("questionNumber");
+    const questionNumber = document.getElementById("questionNumber");
     const answersContainer = document.getElementById("answersContainer");
     const finalScore = document.getElementById("finalScore");
     const progressFill = document.getElementById("progressFill");
@@ -45,7 +45,7 @@ export function initExam()
     {
         exitBtn.style.transition = "visibility 0s, opacity 0.5s linear";
         exitBtn.addEventListener("click", () => {
-            if(engine.getselectedCount() < examLength) 
+            if(!engine.getIsComplete()) 
             {
                 alert("Please answer all questions before submitting.");
                 return;
@@ -68,13 +68,13 @@ export function initExam()
 
         const q = engine.getCurrentQuestion();
         questionText.textContent = q.question;
-        qestionNumber.textContent = `Question ${engine.getIndex() + 1} of ${examLength}`;
+        questionNumber.textContent = `Question ${engine.getIndex() + 1} of ${examLength}`;
         answersContainer.innerHTML = "";
         q.answers.forEach((answer,index) => {
             const button = document.createElement("button");
             button.textContent = answer;
             button.classList.add("btn", "answer-btn");
-            if(q.selected === index) {
+            if(engine.isSelected(index)) {
                 button.classList.add("selected");
             }
             button.addEventListener("click", () => {
@@ -95,7 +95,7 @@ export function initExam()
         prevBtn.addEventListener("click", () => {
             engine.getPreviousQuestion();
 
-            if(engine.getIndex() >= 0) {
+            if(engine.isFirst()) {
                 loadQuestion();
             }
         });
@@ -106,13 +106,13 @@ export function initExam()
         nextBtn.style.transition = "visibility 0s, opacity 0.5s linear";
         nextBtn.addEventListener("click", () => {
             const q = engine.getCurrentQuestion();
-            if(q.selected === null) {
+            if(!engine.hasAnsweredCurrent()) {
                 alert("Please select an answer before proceeding.");
                 return;
             }
             engine.getNextQuestion();
 
-            if(engine.getIndex() < examLength) 
+            if(engine.isLast()) 
             {
                 loadQuestion();       
             }
@@ -122,25 +122,24 @@ export function initExam()
     
     function displayResults() 
     {
-        let timeLeft = timer.getTimeLeft();
         examScreen.classList.remove("active");
         resultsScreen.classList.add("active");
         examTimer.textContent = "Exam Ended";
         exitBtn.disabled = true;
         exitBtn.style.visibility = "hidden";
         finalScore.textContent = `${engine.getScore()} out of ${examLength}`;
-        timeTaken.textContent = `${Math.floor((duration - timeLeft) / 60)}:${((duration - timeLeft) % 60).toString().padStart(2, '0')}`+ " Secs";
+        timeTaken.textContent = `${Math.floor(timer.getMinutes())}:${(timer.getSeconds()).toString().padStart(2, '0')}`+ " Secs";
     }
 
     function updateProgressBar() 
     {
-        progressFill.style.width = `${engine.getprogress()}%`;
+        progressFill.style.width = `${engine.getProgress()}%`;
     }
 
-    function handleTick(timeLeft) 
+    function handleTick(mins, secs) 
     {
-        const minutes = Math.floor(timeLeft / 60).toString().padStart(2, "0");
-        const seconds = (timeLeft % 60).toString().padStart(2, "0");
+        const minutes = mins.toString().padStart(2, "0");
+        const seconds = secs.toString().padStart(2, "0");
 
         examTimer.textContent = `${minutes}:${seconds}`;
         examTimer.setAttribute("datetime", `PT${minutes}M${seconds}S`);
@@ -154,7 +153,6 @@ export function initExam()
 
     function endExam(reason = "submitted") 
     {
-
         timer.stop();
         displayResults();
     }
