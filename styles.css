@@ -1,5 +1,4 @@
 :root {
-  /* --- Typography --- */
   --font-stack: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --font-mono: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
 
@@ -15,55 +14,45 @@
   --border-width: 1px;
   --transition-fast:0.2s ease;
 
-   /* Backgrounds */
-  --color-bg: #FBF7F2;          /* Logo cream background */
-  --color-bg-alt: #F1E9E0;      /* Slightly deeper cream for cards */
+  --color-bg: #FBF7F2;
+  --color-bg-alt: #F1E9E0;
 
-  /* Text */
-  --color-text-main: #1F1F1F;   /* Logo black – AAA on cream */
-  --color-text-muted: #5C5C5C; /* AA on bg, softer hierarchy */
+  --color-text-main: #1F1F1F;
+  --color-text-muted: #5C5C5C;
 
-  /* Brand / Actions */
-  --color-primary: #FF7F76;     /* Coral from logo */
-  --color-primary-hover: #E96A61; /* Darkened coral (AA safe) */
+  --color-primary: #FF7F76;
+  --color-primary-hover: #E96A61;
 
-  /* Borders & UI */
-  --color-border: #E2D8CE;      /* Subtle warm border */
+  --color-border: #E2D8CE;
   --color-shadow: rgba(0, 0, 0, 0.08);
 
-  /* Focus & States */
-  --color-focus-ring: #A86BA3;  /* Logo purple – high visibility */
+  --color-focus-ring: #A86BA3;
   
-  /* Errors */
   --color-error-bg: #FBECEC;
-  --color-error-text: #8A1F1F;  /* AA on error bg */
+  --color-error-text: #8A1F1F;
 
 }
 
 @media(prefers-color-scheme: dark){
     :root{
-        /* Backgrounds */
-    --color-bg: #151212;        /* Warm near-black */
-    --color-bg-alt: #1F1A1A;    /* Card surface */
 
-    /* Text */
-    --color-text-main: #F4EFEA; /* Cream-tinted white – AAA */
-    --color-text-muted: #C9BFB6; /* AA */
+    --color-bg: #151212;
+    --color-bg-alt: #1F1A1A;
 
-    /* Brand / Actions */
-    --color-primary: #FF9A92;   /* Lightened coral for contrast */
+    --color-text-main: #F4EFEA;
+    --color-text-muted: #C9BFB6;
+
+    --color-primary: #FF9A92;  
     --color-primary-hover: #FFB3AD;
 
-    /* Borders & UI */
     --color-border: #332A2A;
     --color-shadow: rgba(0, 0, 0, 0.6);
 
-    /* Focus & States */
-    --color-focus-ring: #C48BC0; /* Brighter purple for dark bg */
 
-    /* Errors */
+    --color-focus-ring: #C48BC0;
+
     --color-error-bg: #3A1B1B;
-    --color-error-text: #F2B6B6; /* AA */
+    --color-error-text: #F2B6B6;
   }
 }
 
